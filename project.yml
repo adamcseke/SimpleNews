@@ -1,0 +1,25 @@
+name: SimpleNews
+options:
+  bundleIdPrefix: com.SimpleNews
+targets:
+  SimpleNews:
+    type: application
+    platform: iOS
+    deploymentTarget: '13.0'
+    sources:
+      - path: SimpleNews
+    info:
+      path: SimpleNews/Info.plist
+      properties:
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+          UISceneConfigurations:
+            UIWindowSceneSessionRoleApplication:
+              - UISceneConfigurationName: Default Configuration
+                UISceneDelegateClassName: $(PRODUCT_MODULE_NAME).SceneDelegate
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        UILaunchStoryboardName: LaunchScreen
+    settings:
+      base:
+        TARGETED_DEVICE_FAMILY: 1
+        DEVELOPMENT_TEAM: "48KF4TL849"
