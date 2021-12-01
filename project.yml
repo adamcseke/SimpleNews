@@ -6,10 +6,12 @@ targets:
     type: application
     platform: iOS
     deploymentTarget: '13.0'
+    dependencies:
+      - package: SDWebImage
     sources:
       - path: SimpleNews
     info:
-      path: SimpleNews/Info.plist
+      path: SimpleNews/Support/Info.plist
       properties:
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: false
@@ -23,3 +25,7 @@ targets:
       base:
         TARGETED_DEVICE_FAMILY: 1
         DEVELOPMENT_TEAM: "48KF4TL849"
+packages:
+  SDWebImage:
+   url: https://github.com/SDWebImage/SDWebImage
+   from: 5.12.0
