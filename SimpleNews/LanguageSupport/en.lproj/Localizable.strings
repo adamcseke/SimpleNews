@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  SimpleNews
+
+  Created by Adam Cseke on 2021. 12. 08..
+  
+*/
+"FeedScreen.AlertShow.title" = "Oops 😬";
+"FeedScreen.AlertShow.description" = "Something went wrong or there's no news like this.";
+"FeedScreen.AlertShow.buttonLabel" = "OK";
+"FeedScreen.ControllerTitle" = "Feed";
+"FeedScreen.SearchBar.label" = "Search News...";
+"FavoritesScreen.ControllerTitle" =  "Favorites";
+"AboutScreen.ControllerTitle" = "About";

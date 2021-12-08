@@ -10,7 +10,7 @@ import UIKit
 class TabBarController: UITabBarController {
     
     private let feedVC = NavigationController(rootViewController: FeedViewController())
-    private let favoritesVC = NavigationController(rootViewController: FavoritesViewController())
+    private let favoritesVC = NavigationController(rootViewController: FavoritesViewController(newsID: ""))
     private let aboutVC = NavigationController(rootViewController: AboutViewController())
     
     override func viewDidLoad() {
@@ -18,13 +18,13 @@ class TabBarController: UITabBarController {
         
         UITabBar.appearance().tintColor = .systemOrange
 
-        feedVC.tabBarItem = UITabBarItem(title: "Feed", image: UIImage(systemName: "book"), tag: 0)
+        feedVC.tabBarItem = UITabBarItem(title: "Feed".localized, image: UIImage(systemName: "book"), tag: 0)
         feedVC.tabBarItem.selectedImage = UIImage(systemName: "book.fill")
         
-        favoritesVC.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "bookmark"), tag: 1)
+        favoritesVC.tabBarItem = UITabBarItem(title: "Favorites".localized, image: UIImage(systemName: "bookmark"), tag: 1)
         favoritesVC.tabBarItem.selectedImage = UIImage(systemName: "bookmark.fill")
         
-        aboutVC.tabBarItem = UITabBarItem(title: "About", image: UIImage(systemName: "person"), tag: 2)
+        aboutVC.tabBarItem = UITabBarItem(title: "About".localized, image: UIImage(systemName: "person"), tag: 2)
         aboutVC.tabBarItem.selectedImage = UIImage(systemName: "person.fill")
         
         viewControllers = [feedVC, favoritesVC, aboutVC]

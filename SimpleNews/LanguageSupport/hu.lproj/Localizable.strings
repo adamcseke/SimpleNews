@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  SimpleNews
+
+  Created by Adam Cseke on 2021. 12. 08..
+  
+*/
+"FeedScreen.AlertShow.title" = "Upsz 😬";
+"FeedScreen.AlertShow.description" = "Valami hiba történt vagy nincsenek ilyen hírek.";
+"FeedScreen.AlertShow.buttonLabel" = "Oké";
+"FeedScreen.ControllerTitle" = "Hírfolyam";
+"FeedScreen.SearchBar.label" = "Hírek keresése...";
+"FavoritesScreen.ControllerTitle" =  "Kedvencek";
+"AboutScreen.ControllerTitle" = "Rólunk";

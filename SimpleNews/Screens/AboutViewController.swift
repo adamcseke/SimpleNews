@@ -17,7 +17,7 @@ class AboutViewController: UIViewController {
         configureNavigationController()
     }
     private func configureNavigationController() {
-        navigationItem.title = "About"
+        navigationItem.title = "AboutScreen.ControllerTitle".localized
         view.backgroundColor = .systemBackground
     }
 }
