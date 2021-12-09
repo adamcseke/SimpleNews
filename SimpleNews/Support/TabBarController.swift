@@ -10,7 +10,7 @@ import UIKit
 class TabBarController: UITabBarController {
     
     private let feedVC = NavigationController(rootViewController: FeedViewController())
-    private let favoritesVC = NavigationController(rootViewController: FavoritesViewController(newsID: ""))
+    private let favoritesVC = NavigationController(rootViewController: FavoritesViewController())
     private let aboutVC = NavigationController(rootViewController: AboutViewController())
     
     override func viewDidLoad() {
