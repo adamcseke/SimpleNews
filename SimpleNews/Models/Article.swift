@@ -17,12 +17,17 @@ struct Article: Codable {
     let urlToImage: String?
     let publishedAt: Date
     let content: String
-    var isFavorite: Bool? = false
-
+    var isFavorite: Bool {
+        get { _isFavorite ?? false }
+        set { _isFavorite = newValue }
+    }
+    
+    private var _isFavorite: Bool?
+    
     enum CodingKeys: String, CodingKey {
         case source, author, title
         case articleDescription = "description"
         case url, urlToImage, publishedAt, content
-        case isFavorite
+        case _isFavorite = "isFavorite"
     }
 }

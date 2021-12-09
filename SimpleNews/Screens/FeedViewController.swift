@@ -19,6 +19,11 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         setup()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getSavedFavorites()
+        tableView.reloadData()
+    }
     private func setup() {
         configureNavigationController()
         configureSearchController()
@@ -48,10 +53,13 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     private func getSavedFavorites() {
         let favorites = DataManager.shared.getSavedData(type: [Article].self, forKey: DataManager.Constants.savedNewsFavorites)
-        favorites?.forEach({ article in
-            guard let index = news.firstIndex(where: {$0.url == article.url}) else { return }
+        news.enumerated().forEach({ index, article in
             var newArticle = news[index]
-            newArticle.isFavorite = article.isFavorite
+            if favorites?.first(where: {$0.url == article.url}) != nil {
+                newArticle.isFavorite = true
+            } else {
+                newArticle.isFavorite = false
+            }
             news[index] = newArticle
         })
     }
@@ -95,9 +103,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         ])
         
     }
-    func dateFormatting() {
-        
-    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath) as? CustomTableViewCell else {
             fatalError()
@@ -110,14 +115,14 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                   sourceLabelText: newsInfo.source.name ?? "",
                   dateLabelText: formatter.string(from: date),
                   backgroundImageURL: newsInfo.urlToImage ?? "",
-                  indexPath: indexPath, delegate: self, isFavorite: newsInfo.isFavorite ?? false)
+                  indexPath: indexPath, delegate: self, isFavorite: newsInfo.isFavorite)
         return cell
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return news.count
     }
     func buttonTapped(at indexPath: IndexPath) {
-        news[indexPath.row].isFavorite?.toggle()
+        news[indexPath.row].isFavorite.toggle()
         var favorites: [Article] = []
         news.forEach { article in
             if article.isFavorite == true {
