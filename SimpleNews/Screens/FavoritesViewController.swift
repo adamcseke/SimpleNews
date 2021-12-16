@@ -6,12 +6,16 @@
 //
 
 import UIKit
+import Lottie
 
 class FavoritesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CellDelegate {
 
+    private var emptyAnimationView = AnimationView()
     private let tableView = UITableView()
     private var favorites: [Article] = [] {
         didSet {
+            emptyAnimationView.isHidden = !favorites.isEmpty
+            playAnimationIfNeeded()            
             tableView.reloadData()
         }
     }
@@ -24,10 +28,12 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         getSavedFavorites()
+        playAnimationIfNeeded()
     }
     private func setup() {
         configureNavigationController()
         configureTableView()
+        setupEmptyAnimation()
     }
     private func getSavedFavorites() {
         guard let favorites = DataManager.shared.getSavedData(type: [Article].self, forKey: DataManager.Constants.savedNewsFavorites) else {
@@ -66,7 +72,6 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
         let newsInfo = favorites[indexPath.row]
         let date = newsInfo.publishedAt
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
-        
         cell.bind(titleLabelText: newsInfo.title,
                   sourceLabelText: newsInfo.source.name ?? "",
                   dateLabelText: formatter.string(from: date),
@@ -75,6 +80,24 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
                   delegate: self,
                   isFavorite: newsInfo.isFavorite)
         return cell
+    }
+    private func setupEmptyAnimation() {
+        emptyAnimationView = .init(name: "emptyAnimation")
+        emptyAnimationView.isHidden = true
+        emptyAnimationView.frame = view.bounds
+        emptyAnimationView.contentMode = .scaleAspectFit
+        emptyAnimationView.loopMode = .loop
+        emptyAnimationView.animationSpeed = 0.5
+        emptyAnimationView.play()
+        emptyAnimationView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(emptyAnimationView)
+        
+        NSLayoutConstraint.activate([
+            emptyAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            emptyAnimationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            emptyAnimationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
     }
     func buttonTapped(at indexPath: IndexPath) {
         favorites[indexPath.row].isFavorite.toggle()
@@ -85,5 +108,13 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         }
         DataManager.shared.saveData(data: newFavorites, forKey: DataManager.Constants.savedNewsFavorites)
+    }
+
+    private func playAnimationIfNeeded() {
+        if favorites.isEmpty {
+            emptyAnimationView.play()
+        } else {
+            emptyAnimationView.pause()
+        }
     }
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Article
-struct Article: Codable {
+struct Article: Codable, Equatable {
     let source: Source
     let author: String
     let title: String
@@ -29,5 +29,9 @@ struct Article: Codable {
         case articleDescription = "description"
         case url, urlToImage, publishedAt, content
         case _isFavorite = "isFavorite"
+    }
+
+    static func == (lhs: Article, rhs: Article) -> Bool {
+        lhs.url == rhs.url
     }
 }

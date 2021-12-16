@@ -138,7 +138,6 @@ class CustomTableViewCell: UITableViewCell {
         if let indexPath = indexPath, let delegate = delegate {
             delegate.buttonTapped(at: indexPath)
         }
-        print("Button tapped")
     }
     func bind(titleLabelText: String,
               sourceLabelText: String,
