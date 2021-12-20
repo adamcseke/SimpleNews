@@ -9,11 +9,15 @@ import UIKit
 import Lottie
 
 class FavoritesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CellDelegate {
-
-    private var emptyAnimationView = AnimationView()
+    
+    private let noBookmarksLabel = UILabel()
+    private let emptyAnimationView = AnimationView(name: "bookmarkAnimation")
     private let tableView = UITableView()
     private var favorites: [Article] = [] {
         didSet {
+            emptyAnimationView.isHidden = !favorites.isEmpty
+            noBookmarksLabel.isHidden = !favorites.isEmpty
+            playAnimationIfNeeded()
             tableView.reloadData()
         }
     }
@@ -25,16 +29,19 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
         if favorites.isEmpty == true {
             setupEmptyAnimation()
         } else {
-        configureTableView()
+            configureTableView()
         }
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         getSavedFavorites()
-        emptyAnimationView.play()
+        playAnimationIfNeeded()
     }
     private func setup() {
         configureNavigationController()
+        configureTableView()
+        setupEmptyAnimation()
+        configureNoBookmarksLabel()
     }
     private func getSavedFavorites() {
         guard let favorites = DataManager.shared.getSavedData(type: [Article].self, forKey: DataManager.Constants.savedNewsFavorites) else {
@@ -63,8 +70,9 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
         ])
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return favorites.count
+        favorites.count
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath) as? CustomTableViewCell else {
             fatalError()
@@ -81,12 +89,23 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
                   isFavorite: newsInfo.isFavorite)
         return cell
     }
+    private func configureNoBookmarksLabel() {
+        noBookmarksLabel.translatesAutoresizingMaskIntoConstraints = false
+        noBookmarksLabel.text = "FavoritesScreen.NoBookmarksLabel".localized
+        noBookmarksLabel.textColor = .secondaryLabel
+        view.addSubview(noBookmarksLabel)
+        
+        NSLayoutConstraint.activate([
+            noBookmarksLabel.topAnchor.constraint(equalTo: emptyAnimationView.bottomAnchor),
+            noBookmarksLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+        ])
+    }
     private func setupEmptyAnimation() {
-        emptyAnimationView = .init(name: "emptyAnimation")
+        emptyAnimationView.isHidden = true
         emptyAnimationView.frame = view.bounds
         emptyAnimationView.contentMode = .scaleAspectFit
         emptyAnimationView.loopMode = .loop
-        emptyAnimationView.animationSpeed = 0.5
+        emptyAnimationView.animationSpeed = 1
         emptyAnimationView.play()
         emptyAnimationView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(emptyAnimationView)
@@ -107,5 +126,13 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         }
         DataManager.shared.saveData(data: newFavorites, forKey: DataManager.Constants.savedNewsFavorites)
+    }
+    
+    private func playAnimationIfNeeded() {
+        if favorites.isEmpty {
+            emptyAnimationView.play()
+        } else {
+            emptyAnimationView.pause()
+        }
     }
 }

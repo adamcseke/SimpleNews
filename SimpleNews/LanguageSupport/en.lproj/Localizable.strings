@@ -12,3 +12,4 @@
 "FeedScreen.SearchBar.label" = "Search News...";
 "FavoritesScreen.ControllerTitle" =  "Favorites";
 "AboutScreen.ControllerTitle" = "About";
+"FavoritesScreen.NoBookmarksLabel" = "You don't have any bookmarks.";

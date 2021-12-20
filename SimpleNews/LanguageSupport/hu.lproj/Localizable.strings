@@ -12,3 +12,4 @@
 "FeedScreen.SearchBar.label" = "Hírek keresése...";
 "FavoritesScreen.ControllerTitle" =  "Kedvencek";
 "AboutScreen.ControllerTitle" = "Rólunk";
+"FavoritesScreen.NoBookmarksLabel" = "Nincsenek kedvenceid.";

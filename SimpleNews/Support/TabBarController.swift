@@ -15,18 +15,25 @@ class TabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         UITabBar.appearance().tintColor = .systemOrange
-
+        setup()
+        viewControllers = [feedVC, favoritesVC, aboutVC]
+    }
+    private func setup() {
+        setupFeedVC()
+        setupFavoritesVC()
+        setupAboutVC()
+    }
+    private func setupFeedVC() {
         feedVC.tabBarItem = UITabBarItem(title: "Feed".localized, image: UIImage(systemName: "book"), tag: 0)
         feedVC.tabBarItem.selectedImage = UIImage(systemName: "book.fill")
-        
+    }
+    private func setupFavoritesVC() {
         favoritesVC.tabBarItem = UITabBarItem(title: "Favorites".localized, image: UIImage(systemName: "bookmark"), tag: 1)
         favoritesVC.tabBarItem.selectedImage = UIImage(systemName: "bookmark.fill")
-        
+    }
+    private func setupAboutVC() {
         aboutVC.tabBarItem = UITabBarItem(title: "About".localized, image: UIImage(systemName: "person"), tag: 2)
         aboutVC.tabBarItem.selectedImage = UIImage(systemName: "person.fill")
-        
-        viewControllers = [feedVC, favoritesVC, aboutVC]
     }
 }
