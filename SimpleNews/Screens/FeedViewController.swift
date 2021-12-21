@@ -11,7 +11,9 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     private let tableView = UITableView(frame: .zero, style: .plain)
     var news: [Article] = []
-    var query: String = "apple"
+    var query: String = "Apple"
+    var country: String = "hu"
+    var category: String = "business"
     var searchVC = UISearchController(searchResultsController: nil)
     let formatter = DateFormatter()
                                      
@@ -28,10 +30,10 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         configureNavigationController()
         configureSearchController()
         configureTableView()
-        searchNews(query: query)
+        getNews(country: country, category: category)
     }
     private func searchNews(query: String) {
-        APICaller.shared.getNews(query: query) { [weak self] result in
+        APICaller.shared.searchNews(query: query) { [weak self] result in
             switch result {
                 
             case .success(let article):
@@ -40,11 +42,24 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self?.tableView.reloadData()
                 DataManager.shared.saveData(data: article, forKey: DataManager.Constants.searchResponseKey)
             case .failure(_):
-                guard let article = DataManager.shared.getSavedData(type: NewsInfo.self,
-                                                                          forKey: DataManager.Constants.searchResponseKey) else {
-                    return
-                    
-                }
+                guard let article = DataManager.shared.getSavedData(type: NewsInfo.self, forKey: DataManager.Constants.searchResponseKey) else { return }
+                self?.news = article.articles
+                self?.getSavedFavorites()
+                self?.tableView.reloadData()
+            }
+        }
+    }
+    private func getNews(country: String, category: String) {
+        APICaller.shared.getNews(country: country, category: category) { [weak self] result in
+            switch result {
+                
+            case .success(let article):
+                self?.news.append(contentsOf: article.articles)
+                self?.getSavedFavorites()
+                self?.tableView.reloadData()
+                DataManager.shared.saveData(data: article, forKey: DataManager.Constants.getNewsKey)
+            case .failure(_):
+                guard let article = DataManager.shared.getSavedData(type: NewsInfo.self, forKey: DataManager.Constants.getNewsKey) else { return }
                 self?.news = article.articles
                 self?.getSavedFavorites()
                 self?.tableView.reloadData()
