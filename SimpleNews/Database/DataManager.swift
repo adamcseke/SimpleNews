@@ -12,6 +12,7 @@ final class DataManager {
     enum Constants {
         static let searchResponseKey = "searchResponseKey"
         static let savedNewsFavorites = "savedNewsFavorites"
+        static let getNewsKey = "getNewsKey"
     }
     static let shared = DataManager()
     private init() {}
