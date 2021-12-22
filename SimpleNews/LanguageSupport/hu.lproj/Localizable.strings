@@ -12,3 +12,5 @@
 "FeedScreen.SearchBar.label" = "Hírek keresése...";
 "FavoritesScreen.ControllerTitle" =  "Kedvencek";
 "AboutScreen.ControllerTitle" = "Rólunk";
+"AboutScreen.AppTitle" = "Simple News";
+"AboutScreen.CreatorLabel" = "Made with ❤️ by @adamcseke";

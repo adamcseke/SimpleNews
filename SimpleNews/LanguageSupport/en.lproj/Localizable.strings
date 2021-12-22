@@ -12,3 +12,5 @@
 "FeedScreen.SearchBar.label" = "Search News...";
 "FavoritesScreen.ControllerTitle" =  "Favorites";
 "AboutScreen.ControllerTitle" = "About";
+"AboutScreen.AppTitle" = "Simple News";
+"AboutScreen.CreatorLabel" = "Made with ❤️ by @adamcseke";
