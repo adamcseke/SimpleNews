@@ -16,6 +16,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     var category: String = "business"
     var searchVC = UISearchController(searchResultsController: nil)
     let formatter = DateFormatter()
+    var favoriteNews: [Article] = []
                                      
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +24,9 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.navigationBar.backgroundColor = .systemBackground
+        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.label]
+        navigationController?.navigationBar.largeTitleTextAttributes = attributes
         getSavedFavorites()
         tableView.reloadData()
     }
@@ -89,8 +93,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     private func configureNavigationController() {
         navigationItem.title = "FeedScreen.ControllerTitle".localized
         navigationController?.navigationBar.prefersLargeTitles = true
-        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.label]
-        navigationController?.navigationBar.largeTitleTextAttributes = attributes
     }
     private func configureSearchController() {
         searchVC.hidesNavigationBarDuringPresentation = true
@@ -138,13 +140,17 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     func buttonTapped(at indexPath: IndexPath) {
         news[indexPath.row].isFavorite.toggle()
-        var favorites: [Article] = []
+        var favoriteNews: [Article] = []
         news.forEach { article in
             if article.isFavorite == true {
-                favorites.append(article)
+                favoriteNews.append(article)
             }
         }
-        DataManager.shared.saveData(data: favorites, forKey: DataManager.Constants.savedNewsFavorites)
+        DataManager.shared.saveData(data: favoriteNews, forKey: DataManager.Constants.savedNewsFavorites)
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let newsDetailVC = NewsDetailViewController(selectedNews: news[indexPath.row])
+        navigationController?.pushViewController(newsDetailVC, animated: true)
     }
 }
 

@@ -8,6 +8,7 @@ targets:
     deploymentTarget: '13.0'
     dependencies:
       - package: SDWebImage
+      - package: Lottie
     sources:
       - path: SimpleNews
     info:
@@ -29,3 +30,6 @@ packages:
   SDWebImage:
    url: https://github.com/SDWebImage/SDWebImage
    from: 5.12.0
+  Lottie:
+   url: https://github.com/airbnb/lottie-ios
+   from: 3.3.0

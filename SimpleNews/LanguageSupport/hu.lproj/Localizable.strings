@@ -14,3 +14,4 @@
 "AboutScreen.ControllerTitle" = "Rólunk";
 "AboutScreen.AppTitle" = "Simple News";
 "AboutScreen.CreatorLabel" = "Made with ❤️ by @adamcseke";
+"NewsDetailsViewController.UIButtonLabel" = "Cikk olvasása";
