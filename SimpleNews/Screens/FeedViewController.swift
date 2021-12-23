@@ -9,6 +9,7 @@ import UIKit
 
 class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CellDelegate {
     
+    private let generator = UIImpactFeedbackGenerator(style: .medium)
     private let tableView = UITableView(frame: .zero, style: .plain)
     var news: [Article] = []
     var query: String = "Apple"
@@ -16,7 +17,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     var category: String = "business"
     var searchVC = UISearchController(searchResultsController: nil)
     let formatter = DateFormatter()
-    var favoriteNews: [Article] = []
                                      
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -149,7 +149,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 favorites.removeAll(where: { $0 == article })
             }
         }
-        DataManager.shared.saveData(data: favoriteNews, forKey: DataManager.Constants.savedNewsFavorites)
+        DataManager.shared.saveData(data: favorites, forKey: DataManager.Constants.savedNewsFavorites)
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let newsDetailVC = NewsDetailViewController(selectedNews: news[indexPath.row])
