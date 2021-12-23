@@ -126,6 +126,8 @@ class CustomTableViewCell: UITableViewCell {
         saveButton.layer.cornerRadius = 20
         saveButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         
+        
+        
         NSLayoutConstraint.activate([
             saveButton.topAnchor.constraint(equalTo: cellView.topAnchor, constant: 20),
             saveButton.trailingAnchor.constraint(equalTo: cellView.trailingAnchor, constant: -20),
@@ -138,7 +140,16 @@ class CustomTableViewCell: UITableViewCell {
         if let indexPath = indexPath, let delegate = delegate {
             delegate.buttonTapped(at: indexPath)
         }
-        print("Button tapped")
+        
+        UIView.animate(withDuration: 0.05,
+            animations: {
+                self.saveButton.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+            },
+            completion: { _ in
+                UIView.animate(withDuration: 0.2) {
+                    self.saveButton.transform = CGAffineTransform.identity
+                }
+            })
     }
     func bind(titleLabelText: String,
               sourceLabelText: String,

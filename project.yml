@@ -7,8 +7,8 @@ targets:
     platform: iOS
     deploymentTarget: '13.0'
     dependencies:
-      - package: SDWebImage
       - package: Lottie
+      - package: SDWebImage
     sources:
       - path: SimpleNews
     info:

@@ -12,6 +12,7 @@
 "FeedScreen.SearchBar.label" = "Search News...";
 "FavoritesScreen.ControllerTitle" =  "Favorites";
 "AboutScreen.ControllerTitle" = "About";
+"FavoritesScreen.NoBookmarksLabel" = "You don't have any bookmarks.";
 "AboutScreen.AppTitle" = "Simple News";
 "AboutScreen.CreatorLabel" = "Made with ❤️ by @adamcseke";
 "NewsDetailsViewController.UIButtonLabel" = "Read Article";

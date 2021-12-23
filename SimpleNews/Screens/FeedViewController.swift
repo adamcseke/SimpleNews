@@ -139,11 +139,14 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         return news.count
     }
     func buttonTapped(at indexPath: IndexPath) {
+        generator.impactOccurred()
+        var favorites = DataManager.shared.getSavedData(type: [Article].self, forKey: DataManager.Constants.savedNewsFavorites) ?? []
         news[indexPath.row].isFavorite.toggle()
-        var favoriteNews: [Article] = []
         news.forEach { article in
-            if article.isFavorite == true {
-                favoriteNews.append(article)
+            if article.isFavorite == true && !favorites.contains(where: { $0 == article }) {
+                favorites.append(article)
+            } else if article.isFavorite == false {
+                favorites.removeAll(where: { $0 == article })
             }
         }
         DataManager.shared.saveData(data: favoriteNews, forKey: DataManager.Constants.savedNewsFavorites)

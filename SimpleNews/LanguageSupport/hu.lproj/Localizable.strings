@@ -12,6 +12,7 @@
 "FeedScreen.SearchBar.label" = "Hírek keresése...";
 "FavoritesScreen.ControllerTitle" =  "Kedvencek";
 "AboutScreen.ControllerTitle" = "Rólunk";
+"FavoritesScreen.NoBookmarksLabel" = "Nincsenek kedvenceid.";
 "AboutScreen.AppTitle" = "Simple News";
 "AboutScreen.CreatorLabel" = "Made with ❤️ by @adamcseke";
 "NewsDetailsViewController.UIButtonLabel" = "Cikk olvasása";
