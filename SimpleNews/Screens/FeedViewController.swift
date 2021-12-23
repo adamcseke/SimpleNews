@@ -12,9 +12,11 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     private let tableView = UITableView(frame: .zero, style: .plain)
     var news: [Article] = []
     var query: String = "Apple"
+    var country: String = "hu"
+    var category: String = "business"
     var searchVC = UISearchController(searchResultsController: nil)
     let formatter = DateFormatter()
-    let generator = UIImpactFeedbackGenerator(style: .medium)
+    var favoriteNews: [Article] = []
                                      
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +24,9 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.navigationBar.backgroundColor = .systemBackground
+        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.label]
+        navigationController?.navigationBar.largeTitleTextAttributes = attributes
         getSavedFavorites()
         tableView.reloadData()
     }
@@ -29,10 +34,10 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         configureNavigationController()
         configureSearchController()
         configureTableView()
-        searchNews(query: query)
+        getNews(country: country, category: category)
     }
     private func searchNews(query: String) {
-        APICaller.shared.getNews(query: query) { [weak self] result in
+        APICaller.shared.searchNews(query: query) { [weak self] result in
             switch result {
                 
             case .success(let article):
@@ -41,11 +46,24 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self?.tableView.reloadData()
                 DataManager.shared.saveData(data: article, forKey: DataManager.Constants.searchResponseKey)
             case .failure(_):
-                guard let article = DataManager.shared.getSavedData(type: NewsInfo.self,
-                                                                          forKey: DataManager.Constants.searchResponseKey) else {
-                    return
-                    
-                }
+                guard let article = DataManager.shared.getSavedData(type: NewsInfo.self, forKey: DataManager.Constants.searchResponseKey) else { return }
+                self?.news = article.articles
+                self?.getSavedFavorites()
+                self?.tableView.reloadData()
+            }
+        }
+    }
+    private func getNews(country: String, category: String) {
+        APICaller.shared.getNews(country: country, category: category) { [weak self] result in
+            switch result {
+                
+            case .success(let article):
+                self?.news.append(contentsOf: article.articles)
+                self?.getSavedFavorites()
+                self?.tableView.reloadData()
+                DataManager.shared.saveData(data: article, forKey: DataManager.Constants.getNewsKey)
+            case .failure(_):
+                guard let article = DataManager.shared.getSavedData(type: NewsInfo.self, forKey: DataManager.Constants.getNewsKey) else { return }
                 self?.news = article.articles
                 self?.getSavedFavorites()
                 self?.tableView.reloadData()
@@ -75,8 +93,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     private func configureNavigationController() {
         navigationItem.title = "FeedScreen.ControllerTitle".localized
         navigationController?.navigationBar.prefersLargeTitles = true
-        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.label]
-        navigationController?.navigationBar.largeTitleTextAttributes = attributes
     }
     private func configureSearchController() {
         searchVC.hidesNavigationBarDuringPresentation = true
@@ -133,7 +149,11 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 favorites.removeAll(where: { $0 == article })
             }
         }
-        DataManager.shared.saveData(data: favorites, forKey: DataManager.Constants.savedNewsFavorites)
+        DataManager.shared.saveData(data: favoriteNews, forKey: DataManager.Constants.savedNewsFavorites)
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let newsDetailVC = NewsDetailViewController(selectedNews: news[indexPath.row])
+        navigationController?.pushViewController(newsDetailVC, animated: true)
     }
 }
 

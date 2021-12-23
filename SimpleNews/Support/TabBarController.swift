@@ -8,6 +8,8 @@
 import UIKit
 
 class TabBarController: UITabBarController {
+
+    private let generator = UIImpactFeedbackGenerator(style: .medium)
     
     private let feedVC = NavigationController(rootViewController: FeedViewController())
     private let favoritesVC = NavigationController(rootViewController: FavoritesViewController())
@@ -35,5 +37,8 @@ class TabBarController: UITabBarController {
     private func setupAboutVC() {
         aboutVC.tabBarItem = UITabBarItem(title: "About".localized, image: UIImage(systemName: "person"), tag: 2)
         aboutVC.tabBarItem.selectedImage = UIImage(systemName: "person.fill")
+    }
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        generator.impactOccurred()
     }
 }

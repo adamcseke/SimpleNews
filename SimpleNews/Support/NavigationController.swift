@@ -18,6 +18,7 @@ class NavigationController: UINavigationController {
     }
     private func configureNavigationController() {
         navigationBar.prefersLargeTitles = true
+        navigationBar.backgroundColor = .systemBackground
         let attributes = [NSAttributedString.Key.foregroundColor: UIColor.label]
         navigationBar.largeTitleTextAttributes = attributes
     }

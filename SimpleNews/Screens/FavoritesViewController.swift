@@ -134,5 +134,9 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             emptyAnimationView.pause()
         }
+    }    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let newsDetailVC = NewsDetailViewController(selectedNews: favorites[indexPath.row])
+        navigationController?.pushViewController(newsDetailVC, animated: true)
     }
 }
