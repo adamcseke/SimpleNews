@@ -86,4 +86,8 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         DataManager.shared.saveData(data: newFavorites, forKey: DataManager.Constants.savedNewsFavorites)
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let newsDetailVC = NewsDetailViewController(selectedNews: favorites[indexPath.row])
+        navigationController?.pushViewController(newsDetailVC, animated: true)
+    }
 }
