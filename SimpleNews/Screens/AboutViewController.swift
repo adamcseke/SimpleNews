@@ -17,9 +17,6 @@ class AboutViewController: UIViewController {
         super.viewDidLoad()
         setup()
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
     private func setup() {
         configureNavigationController()
         configureTitleLabel()

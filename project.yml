@@ -9,7 +9,6 @@ targets:
     dependencies:
       - package: Lottie
       - package: SDWebImage
-      - package: Lottie
     sources:
       - path: SimpleNews
     info:
